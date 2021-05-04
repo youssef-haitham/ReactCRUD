@@ -67,7 +67,7 @@ module.exports.deleteTaskByID = async (req, res) => {
     return res.status(200).json({
         err: null,
         msg: "Task " + req.body.id + " deleted",
-        data: removedTask
+        data: tasks
     });
 
 };
@@ -92,7 +92,6 @@ module.exports.editTaskByID = async (req, res) => {
             if(req.body.description != null){
                 tasks[i].description = req.body.description;
             }
-            updatedTask = tasks[i];
             break;
         }
     }
@@ -108,7 +107,7 @@ module.exports.editTaskByID = async (req, res) => {
     return res.status(200).json({
         err: null,
         msg: "Task " + req.body.id + " updated",
-        data: updatedTask
+        data: tasks
     });
 
 
@@ -137,7 +136,7 @@ module.exports.addTask = async (req, res) => {
     return res.status(200).json({
         err: null,
         msg: "Task added",
-        data: newTask
+        data: tasks
     });
 
 };
