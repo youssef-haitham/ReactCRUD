@@ -21,8 +21,10 @@ function Task() {
         done =true;
     }
 
-    if(tasks != null)
-    tasks.then(res=> setTasks(res.data.data));
+    if(tasks != null){
+        tasks.then(res=> res != null ? setTasks(res.data.data): "");
+    }
+    
 
     function addOrUpdateTask(){
         if(document.querySelector('#add').innerHTML === "Add"){
