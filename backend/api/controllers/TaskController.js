@@ -81,15 +81,16 @@ module.exports.editTaskByID = async (req, res) => {
     }
 
     var updatedTask;
-
+    var idINT = parseInt(req.body.id, 10);
     for (i = 0; i < tasks.length; i++) {
-        if (tasks[i].id == req.body.id) {
+        if (tasks[i].id == idINT) {
             if(req.body.title != null){
                 tasks[i].title = req.body.title;
             }
             if(req.body.description != null){
                 tasks[i].description = req.body.description;
             }
+            updatedTask = tasks[i];
             break;
         }
     }
@@ -107,8 +108,6 @@ module.exports.editTaskByID = async (req, res) => {
         msg: "Task " + req.body.id + " updated",
         data: tasks
     });
-
-
 };
 
 module.exports.addTask = async (req, res) => {

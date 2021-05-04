@@ -28,12 +28,12 @@ const TaskReducer = (state = null, action) => {
             });
         }
         case 'EDIT': {
-            return axios.put("http://localhost:4200/api/tasks/editTask",action.payload,{
-                "Access-Control-Allow-Origin": "*",
-               "Access-Control-Allow-Headers": "*",
-               "Access-Control-Allow-Methods" : "POST, GET, OPTIONS, PUT, DELETE"
-            })
+            var config = {
+                headers: {'Access-Control-Allow-Origin': '*'}
+            };
+            return axios.put("http://localhost:4200/api/tasks/editTask",action.payload,config)
             .catch(error => {
+                console.log(error);
                 return state;
             });
         }

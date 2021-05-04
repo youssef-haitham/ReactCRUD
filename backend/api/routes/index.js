@@ -11,5 +11,4 @@ router.delete('/deleteTask', asyncMiddleware(taskCtrl.deleteTaskByID));
 router.put('/editTask', asyncMiddleware(taskCtrl.editTaskByID));
 router.post('/addTask', asyncMiddleware(taskCtrl.addTask));
 
-
 module.exports = router;

@@ -30,6 +30,8 @@ function Task() {
             var description = document.getElementById('description').value;
             var newTask = {'title': title, 'description': description};
             dispatch(addTask(newTask));
+            document.getElementById('title').value = "";
+            document.getElementById('description').value ="";
         }
         else{
             var title = document.getElementById('title').value;
@@ -38,6 +40,8 @@ function Task() {
             var updatedTask = {'id': taskID,'title': title, 'description': description};
             dispatch(editTaskByID(updatedTask));
             document.querySelector('#add').innerHTML = 'Add';
+            document.getElementById('title').value = "";
+            document.getElementById('description').value ="";
         }
         
     }

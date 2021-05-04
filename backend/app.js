@@ -13,7 +13,7 @@ app.use(
   cors({
     origin: true,
     credentials: true,
-    methods: ['GET', 'POST', 'PATCH', 'DELETE']
+    methods: ['GET', 'PUT','POST', 'PATCH', 'DELETE']
   })
 );
 app.use(helmet());
