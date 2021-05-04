@@ -1,21 +1,31 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllTasks } from '../actions'
 import { addTask } from '../actions'
 import { deleteTaskByID } from '../actions'
+import { getTaskByKey } from '../actions'
 import { editTaskByID } from '../actions'
 import { Table } from 'react-bootstrap'
 import '../styles/Task.css'
 
+var done = false;
 function Task() {
 
-    const tasks = useSelector(state => state != null? state.then(data => allTasks = data.data): allTasks = []);
+    const [allTasks, setTasks] = useState([]);
+    
+    const tasks = useSelector(state => state);
     const dispatch = useDispatch();
 
-    var allTasks = [];
-    function addOrUpdateTask(taskID){
-        console.log(taskID);
-        if(document.querySelector('#add').innerHTML == "Add"){
+    if(!done){
+        dispatch(getAllTasks());
+        done =true;
+    }
+
+    if(tasks != null)
+    tasks.then(res=> setTasks(res.data.data));
+
+    function addOrUpdateTask(){
+        if(document.querySelector('#add').innerHTML === "Add"){
             var title = document.getElementById('title').value;
             var description = document.getElementById('description').value;
             var newTask = {'title': title, 'description': description};
@@ -24,9 +34,10 @@ function Task() {
         else{
             var title = document.getElementById('title').value;
             var description = document.getElementById('description').value;
-            document.querySelector('#add').innerHTML = 'Add';
+            var taskID = document.getElementById('updatedIndexInput').value;
             var updatedTask = {'id': taskID,'title': title, 'description': description};
             dispatch(editTaskByID(updatedTask));
+            document.querySelector('#add').innerHTML = 'Add';
         }
         
     }
@@ -34,11 +45,26 @@ function Task() {
     function updateChoosenTask(task){
         document.getElementById('title').value = task.title;
         document.getElementById('description').value = task.description;
+        document.getElementById('updatedIndexInput').value = task.id
         document.querySelector('#add').innerHTML = 'Update';
     }
 
+    function searchByKey(){
+        var searchKey = document.getElementById("searchKey").value;
+        dispatch(getTaskByKey(searchKey));
+    }
+
+    
     return (
         <div>
+            <div className="searchBar">
+        <input
+        id="searchKey"
+            type="text"
+            placeholder="Enter search key"
+        />
+        <button className="button" onClick={() => searchByKey()} type="submit">Search</button>
+        </div>
             <button onClick={() => dispatch(getAllTasks())}>Get all tasks</button>
           <Table className='tbl1' striped bordered hover size="sm">
               <thead>
@@ -65,7 +91,7 @@ function Task() {
               </tbody>
               <tfoot>
               <tr>
-                    <td></td>
+                    <td id="updatedIndex"><div id="updatedIndex"><input hidden id="updatedIndexInput"></input></div></td>
                     <td><div className="titleInput"><input id="title" placeholder="Enter task title"></input></div></td>
                     <td><div className="descriptionInput"><input id="description" placeholder="Enter task description"></input></div></td>
                     <td><button className='add' id="add" type="button" onClick={() => addOrUpdateTask()}>Add</button></td>

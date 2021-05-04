@@ -20,3 +20,19 @@
 #description{
     width: 100%;
 }
+
+.button {
+    margin-left: 0.5%;
+}
+
+.searchBar{
+    margin-bottom: 1%;
+}
+
+.updatedIndex{
+    width: 10px
+}
+
+.updatedIndexInput{
+    width: 10px
+}

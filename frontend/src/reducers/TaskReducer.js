@@ -1,29 +1,43 @@
+import axios from 'axios'
+
 const TaskReducer = (state = null, action) => {
     switch(action.type){
         case 'GET-ALL': {
-            return fetch('http://localhost:4200/api/tasks/getAllTasks').then(response => response.json());
+            return axios.get("http://localhost:4200/api/tasks/getAllTasks").then(response =>{ return response})
+    .catch(error => {
+        return state;
+    });
         }
         case 'GET-BY-KEY': {
-            console.log(action.payload);
-            return [{
-                'title': "task 2",
-                'description': "This is task 2"
-            }];
+            return axios.get("http://localhost:4200/api/tasks/getTask", {params: {key:action.payload}})
+            .catch(error => {
+                return state;
+            });
         }
         case 'DELETE': {
-            return state;
+            return axios.delete("http://localhost:4200/api/tasks/deleteTask",{params: {id:action.payload}})
+            .catch(error => {
+                return state;
+            });
         }
        
         case 'ADD': {
-            console.log(action.payload);
-            return state.concat({"id":5,"title":action.payload.title,"description":action.payload.description});
+            return axios.post("http://localhost:4200/api/tasks/addTask",action.payload)
+            .catch(error => {
+                return state;
+            });
         }
         case 'EDIT': {
-            console.log(action.payload);
-            return state;
+            return axios.put("http://localhost:4200/api/tasks/editTask",action.payload,{
+                "Access-Control-Allow-Origin": "*",
+               "Access-Control-Allow-Headers": "*",
+               "Access-Control-Allow-Methods" : "POST, GET, OPTIONS, PUT, DELETE"
+            })
+            .catch(error => {
+                return state;
+            });
         }
         default: {
-            console.log(state);
             return state;
         }
     }

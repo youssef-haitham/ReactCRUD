@@ -4,8 +4,6 @@ var id = 1;
 module.exports.getAllTasks = async (req, res) => {
 
     return res.status(200).json({
-        err: null,
-        msg: "Data retrieved",
         data: tasks
     });
 
@@ -13,7 +11,7 @@ module.exports.getAllTasks = async (req, res) => {
 
 module.exports.getTasksByTitleOrDescription = async (req, res) => {
 
-    if(req.body.key == null){
+    if(req.query.key == null){
         return res.status(500).json({
             err: "UNDEFINED_KEY",
             msg: "Please send a key in the request",
@@ -24,14 +22,14 @@ module.exports.getTasksByTitleOrDescription = async (req, res) => {
     var foundTasks = [];
 
     for(i = 0; i<tasks.length; i++){
-        if(tasks[i].title.includes(req.body.key) || tasks[i].description.includes(req.body.key)){
+        if(tasks[i].title.includes(req.query.key) || tasks[i].description.includes(req.query.key)){
             foundTasks.push(tasks[i]);
         }
     }
 
     return res.status(200).json({
         err: null,
-        msg: "Retrived tasks with key " + req.body.key,
+        msg: "Retrived tasks with key " + req.query.key,
         data: foundTasks
     });
 
@@ -39,7 +37,7 @@ module.exports.getTasksByTitleOrDescription = async (req, res) => {
 
 module.exports.deleteTaskByID = async (req, res) => {
 
-    if(req.body.id == null){
+    if(req.query.id == null){
        return res.status(500).json({
             err: "UNDEFINED_ID",
             msg: "Please send an ID in the request",
@@ -50,7 +48,7 @@ module.exports.deleteTaskByID = async (req, res) => {
     var removedTask;
 
     for (i = 0; i < tasks.length; i++) {
-        if (tasks[i].id == req.body.id) {
+        if (tasks[i].id == req.query.id) {
             removedTask = tasks.splice(i,1);
             break;
         }
@@ -116,7 +114,7 @@ module.exports.editTaskByID = async (req, res) => {
 module.exports.addTask = async (req, res) => {
 
     if(req.body.title == null || req.body.description == null){
-        return res.status(500).json({
+        return res.status(300).json({
             err: "WRONG_INFO",
             msg: "Please enter the correct information",
             data: null
